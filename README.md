@@ -11,7 +11,7 @@ npm install react-native-saltpay
 ## Usage
 
 ```js
-import { dispatch } from 'react-native-saltpay';
+import { dispatcher } from 'react-native-saltpay';
 
 // ...
 
