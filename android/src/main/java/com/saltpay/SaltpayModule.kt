@@ -38,37 +38,21 @@ class SaltpayModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
 
   lateinit var requestDispatcher: EposRequestDispatcherApi
 
-
-  object PayAppResponseListener: EposResponseListener {
-    override fun onResponse(response: ResponseModel) {
-      when (response) {
-        is PayAppConfigResponse -> {
-
-        }
-        is SalePaymentResponse.Approved -> {
-
-        }
-        is SalePaymentResponse.Failed -> {
-
-        }
-        else -> {
-
-        }
-      }
-    }
-  }
-
   @ReactMethod
   fun dispatcher(requestId: String, amount: String, currency: String) {
+    if (::eposConfiguration.isInitialized) {
+      val requestModel = SalePayment(
+        UUID.randomUUID().toString(),
+        BigDecimal(amount),
+        eposConfiguration.availableCurrencies.first()
+  //      Currency("EUR", "1245", 1),
+      )
 
-    val requestModel = SalePayment(
-      UUID.randomUUID().toString(),
-      BigDecimal(amount),
-      eposConfiguration.availableCurrencies.first()
-//      Currency("EUR", "1245", 1),
-    )
+      requestDispatcher.request(requestModel)
+    } else {
+      Toast.makeText(reactContext.currentActivity, "Não foi possível iniciar o pagamento!", Toast.LENGTH_LONG).show()
+    }
 
-    requestDispatcher.request(requestModel)
   }
 
   override fun initialize() {
@@ -85,10 +69,10 @@ class SaltpayModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
               eposConfiguration = response
             }
             is SalePaymentResponse.Approved -> {
-
+              Toast.makeText(reactContext.currentActivity, "Pagamento realizado com sucesso!", Toast.LENGTH_LONG).show()
             }
             is SalePaymentResponse.Failed -> {
-
+              Toast.makeText(reactContext.currentActivity, "Não foi possível finalizar o pagamento!", Toast.LENGTH_LONG).show()
             }
             else -> {
 
@@ -111,7 +95,7 @@ class SaltpayModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
         result.throwable.printStackTrace()
       }
       else -> {
-
+        println("Error making request")
       }
     }
   }
