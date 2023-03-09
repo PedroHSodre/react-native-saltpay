@@ -74,6 +74,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation 'co.saltpay.terminal:epos-integration-lib:1.0.7'
 }
 
 if (isNewArchitectureEnabled()) {

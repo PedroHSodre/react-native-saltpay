@@ -1,6 +1,6 @@
 {
   "name": "react-native-saltpay",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -33,7 +33,7 @@
     "prepack": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
-    "bootstrap": "yarn example && yarn install && yarn example pods",
+    "bootstrap": "npm run example && npm install && npm run example pods",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build"
   },
   "keywords": [

@@ -17,6 +17,10 @@ const Saltpay = NativeModules.Saltpay
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Saltpay.multiply(a, b);
+export function dispatcher(requestId: String, amount: string, currency: string): any {
+  return Saltpay.dispatcher(
+    requestId,
+    amount,
+    currency
+  );
 }

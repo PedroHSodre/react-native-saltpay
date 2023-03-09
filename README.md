@@ -11,11 +11,11 @@ npm install react-native-saltpay
 ## Usage
 
 ```js
-import { multiply } from 'react-native-saltpay';
+import { dispatch } from 'react-native-saltpay';
 
 // ...
 
-const result = await multiply(3, 7);
+const result = dispatcher('id', 'amount', 'currency');
 ```
 
 ## Contributing
