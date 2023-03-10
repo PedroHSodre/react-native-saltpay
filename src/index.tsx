@@ -17,16 +17,14 @@ const Saltpay = NativeModules.Saltpay
       }
     );
 
-export function requestPayment(requestId: String, amount: string, currency: string): any {
-
-  return Saltpay.requestPayment(
-    requestId,
-    amount,
-    currency
-  );
+export function requestPayment(
+  requestId: String,
+  amount: string,
+  currency: string
+): any {
+  return Saltpay.requestPayment(requestId, amount, currency);
 }
 
 export function reversePayment(requestId: String): any {
-
   return Saltpay.reversePayment(requestId);
 }
