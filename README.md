@@ -5,17 +5,21 @@ package to integrate with saltpay payments
 ## Installation
 
 ```sh
-npm install react-native-saltpay
+gh repo clone PedroHSodre/react-native-saltpay
+
+HTTPS https://github.com/PedroHSodre/react-native-saltpay.git
 ```
 
 ## Usage
 
 ```js
-import { dispatcher } from 'react-native-saltpay';
+import { requestPayment, reversePayment } from 'react-native-saltpay';
 
 // ...
 
-const result = dispatcher('id', 'amount', 'currency');
+const resultPayment = requestPayment('transactionId', 'amount', 'currency');
+
+const resultReverse = reversePayment('transactionId');
 ```
 
 ## Contributing
