@@ -14,6 +14,7 @@ import co.saltpay.epos.integrationlib.common.FailureSendingRequest
 import co.saltpay.epos.models.common.Currency
 
 import co.saltpay.epos.models.request.SalePayment
+import co.saltpay.epos.models.request.ReverseLastPayment
 import co.saltpay.epos.models.request.PayAppConfigRequest
 
 import co.saltpay.epos.models.response.SalePaymentResponse
@@ -39,20 +40,30 @@ class SaltpayModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
   lateinit var requestDispatcher: EposRequestDispatcherApi
 
   @ReactMethod
-  fun dispatcher(requestId: String, amount: String, currency: String) {
+  fun requestPayment(requestId: String, amount: String, currency: String) {
     if (::eposConfiguration.isInitialized) {
       val requestModel = SalePayment(
-        UUID.randomUUID().toString(),
+        requestId,
         BigDecimal(amount),
         eposConfiguration.availableCurrencies.first()
-  //      Currency("EUR", "1245", 1),
       )
 
       requestDispatcher.request(requestModel)
     } else {
       Toast.makeText(reactContext.currentActivity, "Não foi possível iniciar o pagamento!", Toast.LENGTH_LONG).show()
     }
+  }
 
+  @ReactMethod
+  fun reversePayment(requestId: String) {
+    if (::eposConfiguration.isInitialized) {
+
+      val requestModel = ReverseLastPayment(requestId)
+
+      requestDispatcher.request(requestModel)
+    } else {
+      Toast.makeText(reactContext.currentActivity, "Não foi possivel continuar!", Toast.LENGTH_LONG).show()
+    }
   }
 
   override fun initialize() {
@@ -67,6 +78,12 @@ class SaltpayModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
           when (response) {
             is PayAppConfigResponse -> {
               eposConfiguration = response
+
+              if (::eposConfiguration.isInitialized) {
+                Toast.makeText(reactContext.currentActivity, "PayAppConfigResponse foi inicializado!", Toast.LENGTH_LONG).show()
+              } else {
+                Toast.makeText(reactContext.currentActivity, "PayAppConfigResponse não foi inicializado!", Toast.LENGTH_LONG).show()
+              }
             }
             is SalePaymentResponse.Approved -> {
               Toast.makeText(reactContext.currentActivity, "Pagamento realizado com sucesso!", Toast.LENGTH_LONG).show()

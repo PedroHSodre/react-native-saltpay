@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { dispatcher } from 'react-native-saltpay';
+import { reversePayment, requestPayment } from 'react-native-saltpay';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
@@ -9,9 +9,12 @@ export default function App() {
   console.log(dispatcher)
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
-      <TouchableOpacity onPress={() => dispatcher('123456', '14.55', 'EUR')}>
-        <Text>dispatch</Text>
+      <Text>Teste</Text>
+      <TouchableOpacity onPress={() => requestPayment('123456', '14.55', 'EUR')}>
+        <Text>requestPayment</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => reversePayment('123456')}>
+        <Text>reversePayment</Text>
       </TouchableOpacity>
     </View>
   );
